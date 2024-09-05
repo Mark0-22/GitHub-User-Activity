@@ -1,0 +1,23 @@
+{
+  "name": "github-user-activity",
+  "version": "1.0.0",
+  "description": "Displaying GitHub user activity",
+  "type": "module",
+  "bin": {
+    "github-activity": "./bin/index.js"
+  },
+  "main": "./bin/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mark0-22/GitHub-User-Activity.git"
+  },
+  "author": "Marko Jovicic",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mark0-22/GitHub-User-Activity/issues"
+  },
+  "homepage": "https://github.com/Mark0-22/GitHub-User-Activity#readme"
+}
