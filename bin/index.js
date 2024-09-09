@@ -10,6 +10,11 @@ if (!username) {
   process.exit(1);
 }
 
+const eventKeyMap = {
+  PushEvent: event => console.log(`PushEvent occured on repository ${event.repository}`),
+  default: event => console.log(`${event.type} occured`)
+}
+
 async function getRecentActivities(username) {
   const options = {
     // Info for username's github (e.g. host, path, method...)
@@ -39,25 +44,23 @@ async function getRecentActivities(username) {
           console.log(`No recent activity found for user: ${username}`);
         } else {
           console.log("Output:");
-          events.forEach((event) => {
-            // For each event, checks it's type and print relevant info
-            switch (event.type) {
-              case "PushEvent":
-                console.log(
-                  `Pushed ${event.payload.commits.length} commits to ${event.repo.name}`
-                );
-                break;
-              case "IssuesEvent":
-                console.log(`Opened a new issue in ${event.repo.name}`);
-                break;
-              case "WatchEvent":
-                console.log(`Starred ${event.repo.name}`);
-                break;
-              default:
-                console.log(`Performed ${event.type} on ${event.repo.name}`);
-                break;
+          const eventMap = events.reduce((prazanObjekat, event) => {
+            if (!prazanObjekat[event.type]) {
+              prazanObjekat[event.type] = [event]
+            } else {
+              prazanObjekat[event.type].push(event)
             }
-          });
+            return prazanObjekat;
+          }, {});
+
+
+          Object.keys(eventMap).forEach(key => {
+            const callback = eventKeyMap[key] | eventKeyMap.default;
+
+            const eventArray = eventMap[key];
+
+            eventArray.forEach(event => callback(event));
+          })
         }
       } catch (err) {
         console.log(err);
